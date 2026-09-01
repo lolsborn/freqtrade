@@ -20,7 +20,14 @@ class Gemini(Exchange):
     """
 
     _ft_has: FtHas = {
+        # Verified against api.gemini.com: features.spot.createOrder reports
+        # IOC / FOK / PO / GTC as supported, GTD as not.
         "order_time_in_force": ["GTC", "IOC", "FOK", "PO"],
+        # "ohlcv_partial_candle" is intentionally left at the default (True).
+        # Gemini only returns an in-progress candle on the 1m timeframe; on 5m and
+        # above the newest candle returned is already closed. Keeping the default
+        # discards one usable candle on those timeframes, but is the safe choice -
+        # the alternative would feed a partial 1m candle to strategies.
         # The candles endpoint has no "since" parameter - it always returns the most
         # recent window for the requested timeframe, so history cannot be paginated.
         "ohlcv_has_history": False,

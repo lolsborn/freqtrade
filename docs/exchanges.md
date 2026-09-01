@@ -273,10 +273,15 @@ Kucoin accounts may use `KCS` for fees, and if a trade happens to be on `KCS`, f
 Gemini supports [time_in_force](configuration.md#understand-order_time_in_force) with settings "GTC" (good till cancelled), "IOC" (immediate-or-cancel), "FOK" (fill-or-kill) and "PO" (Post only) settings.
 
 !!! Warning "Limit orders only"
-    Gemini does not offer market orders. Both `order_types.entry` and `order_types.exit` (as well as `order_types.stoploss`) must be set to `"limit"`, otherwise the bot will refuse to start.
+    Gemini's API does not directly support market orders - as their documentation puts it, "they provide you with no price protection". Both `order_types.entry` and `order_types.exit` (as well as `order_types.stoploss`) must be set to `"limit"`, otherwise the bot will refuse to start.
 
-!!! Warning "No stoploss on exchange"
-    Gemini does not support `stoploss_on_exchange`. The bot will handle stoploss orders internally.
+    Gemini's documented workaround is an `immediate-or-cancel` order with an aggressive limit price. You can approximate this in Freqtrade by using limit orders with `"IOC"` as `order_time_in_force` and a suitably aggressive `price_side` / offset.
+
+!!! Note "Stoploss on exchange"
+    Gemini itself *does* support stop-limit orders (`exchange stop limit`), but `stoploss_on_exchange` is not enabled for this exchange: ccxt's Gemini order parser does not return the trigger price on the order (it is hardcoded to `None`), so Freqtrade cannot reliably track a stoploss order placed on the exchange. The bot handles stoploss internally instead.
+
+!!! Note "Spot only"
+    Gemini offers perpetual swap contracts in addition to spot, but this integration is spot-only - futures are not supported.
 
 ### Historic Gemini data
 
@@ -284,7 +289,9 @@ The Gemini candles endpoint does not accept a start date - it always returns the
 
 This is enough for dry-run and live trading, but means historic data cannot be paginated for backtesting - repeated downloads will return the same candles over and over. Plan your backtesting data accordingly.
 
-Gemini also only offers the `1m`, `5m`, `15m`, `30m`, `1h`, `6h` and `1d` timeframes. Notably, `4h` is **not** available.
+Gemini also only offers the `1m`, `5m`, `15m`, `30m`, `1h`, `6h` and `1d` timeframes (the API names the latter three `1hr`, `6hr` and `1day`). Notably, `4h` is **not** available.
+
+Note also that Gemini only returns an in-progress (partial) candle on the `1m` timeframe. On all other timeframes the most recent candle returned is already closed, so Freqtrade's partial-candle handling will discard one otherwise-usable candle.
 
 ## HTX
 
