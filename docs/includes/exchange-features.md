@@ -12,6 +12,7 @@
 | [Bybit](exchanges.md#bybit) | futures | isolated | market, limit |
 | [Gate.io](exchanges.md#gateio) | spot | | limit |
 | [Gate.io](exchanges.md#gateio) | futures | isolated | limit |
+| [Gemini](exchanges.md#gemini) | spot | | ❌ (not available) |
 | [HTX](exchanges.md#htx) | spot | | limit |
 | [Hyperliquid](exchanges.md#hyperliquid) | spot | | ❌ (not available) |
 | [Hyperliquid](exchanges.md#hyperliquid) | futures | isolated, cross | limit |

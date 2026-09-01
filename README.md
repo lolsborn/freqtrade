@@ -36,6 +36,7 @@ Please read the [exchange-specific notes](https://www.freqtrade.io/en/stable/exc
 - [X] [Bybit](https://bybit.com/)
 - [X] [Gate EU](https://www.gate.com/en-eu)
 - [X] [Gate](https://www.gate.com/ref/6266643)
+- [X] [Gemini](https://www.gemini.com/)
 - [X] [HTX](https://www.htx.com/)
 - [X] [Hyperliquid](https://hyperliquid.xyz/) (A decentralized exchange, or DEX)
 - [X] [Kraken](https://kraken.com/)

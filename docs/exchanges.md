@@ -268,6 +268,24 @@ Kucoin supports [time_in_force](configuration.md#understand-order_time_in_force)
 For Kucoin, it is suggested to add `"KCS/<STAKE>"` to your blacklist to avoid issues, unless you are willing to maintain enough extra `KCS` on the account or unless you're willing to disable using `KCS` for fees.
 Kucoin accounts may use `KCS` for fees, and if a trade happens to be on `KCS`, further trades may consume this position and make the initial `KCS` trade unsellable as the expected amount is not there anymore.
 
+## Gemini
+
+Gemini supports [time_in_force](configuration.md#understand-order_time_in_force) with settings "GTC" (good till cancelled), "IOC" (immediate-or-cancel), "FOK" (fill-or-kill) and "PO" (Post only) settings.
+
+!!! Warning "Limit orders only"
+    Gemini does not offer market orders. Both `order_types.entry` and `order_types.exit` (as well as `order_types.stoploss`) must be set to `"limit"`, otherwise the bot will refuse to start.
+
+!!! Warning "No stoploss on exchange"
+    Gemini does not support `stoploss_on_exchange`. The bot will handle stoploss orders internally.
+
+### Historic Gemini data
+
+The Gemini candles endpoint does not accept a start date - it always returns the most recent window of candles for the requested timeframe, and the size of that window depends on the timeframe (roughly 1 day of 1m candles, but around a year of 1d candles).
+
+This is enough for dry-run and live trading, but means historic data cannot be paginated for backtesting - repeated downloads will return the same candles over and over. Plan your backtesting data accordingly.
+
+Gemini also only offers the `1m`, `5m`, `15m`, `30m`, `1h`, `6h` and `1d` timeframes. Notably, `4h` is **not** available.
+
 ## HTX
 
 !!! Tip "Stoploss on Exchange"

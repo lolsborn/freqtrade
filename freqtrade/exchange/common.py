@@ -60,6 +60,7 @@ SUPPORTED_EXCHANGES = [
     "bybiteu",
     "gate",
     "gateeu",
+    "gemini",
     "htx",
     "hyperliquid",
     "kraken",
